@@ -9,7 +9,7 @@ import pandas as pd
 import joblib
 import datetime
 import hmac
-
+from pathlib import Path
 
 # -----------------------------
 # Page config (must be first UI call)
@@ -201,6 +201,11 @@ with right:
 
         st.metric("Survival probability", f"{proba:.1%}")
         st.progress(int(proba * 100))
+
+        if proba >= 0.50:
+            st.balloons()
+            video_path = Path(__file__).resolve().parent / "assets" / "survival.mp4"
+            st.video(str(video_path))
 
         if y_pred == 0:
             st.error("❌ Prediction: Passenger would **NOT** survive.")
